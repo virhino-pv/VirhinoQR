@@ -1,0 +1,31 @@
+{
+  "browser": { "mode": "launch", "executable_path": "C:/Program Files/Google/Chrome/Application/chrome.exe" },
+  "start_url": { "url": "https://www.qrcode-monkey.com/" },
+  "environment": { "viewport": { "width": 1440, "height": 1000 } },
+  "actions": [
+    { "step_id": "settle", "action": "wait_for_timeout", "duration_ms": 3000 },
+    { "step_id": "fill-invalid-url", "action": "fill", "locator": { "kind": "css", "selector": "#qrcodeUrl" }, "value": { "source": "literal", "value": "not a url" }, "timeout_ms": 10000 },
+    { "step_id": "create-invalid", "action": "click", "locator": { "kind": "css", "selector": "[ng-click=\"qrcodeGenerator()\"]" }, "timeout_ms": 10000 },
+    { "step_id": "wait-invalid", "action": "wait_for_timeout", "duration_ms": 800 },
+    { "step_id": "fill-valid-url", "action": "fill", "locator": { "kind": "css", "selector": "#qrcodeUrl" }, "value": { "source": "literal", "value": "https://example.com/rea-investigation" }, "timeout_ms": 10000 },
+    { "step_id": "open-colors", "action": "click", "locator": { "kind": "css", "selector": "[ng-click=\"setEditView('colors')\"]" }, "timeout_ms": 10000 },
+    { "step_id": "choose-gradient", "action": "click", "locator": { "kind": "css", "selector": "input[name='colorMode'][value='gradient']" }, "timeout_ms": 10000 },
+    { "step_id": "custom-eye-color", "action": "click", "locator": { "kind": "css", "selector": "input[ng-model='customEyeColor']" }, "timeout_ms": 10000 },
+    { "step_id": "wait-colors", "action": "wait_for_timeout", "duration_ms": 800 },
+    { "step_id": "open-design", "action": "click", "locator": { "kind": "css", "selector": "[ng-click=\"setEditView('shape')\"]" }, "timeout_ms": 10000 },
+    { "step_id": "pick-body-shape", "action": "click", "locator": { "kind": "css", "selector": "[ng-click='setBodyShape(body.type)'] >> nth=6" }, "timeout_ms": 10000 },
+    { "step_id": "pick-frame-shape", "action": "click", "locator": { "kind": "css", "selector": "[ng-click='setEyeFrameShape(frame.type)'] >> nth=13" }, "timeout_ms": 10000 },
+    { "step_id": "pick-ball-shape", "action": "click", "locator": { "kind": "css", "selector": "[ng-click='setEyeBallShape(ball.type)'] >> nth=14" }, "timeout_ms": 10000 },
+    { "step_id": "create-qr", "action": "click", "locator": { "kind": "css", "selector": "[ng-click=\"qrcodeGenerator()\"]" }, "timeout_ms": 10000 },
+    { "step_id": "wait-preview", "action": "wait_for_timeout", "duration_ms": 6000 },
+    { "step_id": "download-png", "action": "click", "locator": { "kind": "css", "selector": "#button-download-qr-code-png" }, "timeout_ms": 10000 },
+    { "step_id": "wait-download-modal", "action": "wait_for_timeout", "duration_ms": 2000 },
+    { "step_id": "wait-download-done", "action": "wait_for_timeout", "duration_ms": 11000 }
+  ],
+  "capture": {
+    "after_each_step": ["screenshot", "accessibility", "url"],
+    "events": ["console", "page-errors", "network", "downloads"],
+    "network": { "request_body": true, "response_body": true },
+    "limits": { "max_network_body_bytes": 4194304, "max_network_body_allocation_bytes": 33554432, "max_event_allocation_bytes": 33554432, "max_total_event_allocation_bytes": 536870912 }
+  }
+}

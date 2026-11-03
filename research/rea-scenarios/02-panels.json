@@ -1,0 +1,26 @@
+{
+  "browser": { "mode": "launch", "executable_path": "C:/Program Files/Google/Chrome/Application/chrome.exe" },
+  "start_url": { "url": "https://www.qrcode-monkey.com/" },
+  "environment": { "viewport": { "width": 1440, "height": 1000 } },
+  "actions": [
+    { "step_id": "accept-cookies", "action": "click", "locator": { "kind": "role", "role": "button", "name": "Accept All Cookies" }, "timeout_ms": 15000 },
+    { "step_id": "open-statistics", "action": "click", "locator": { "kind": "css", "selector": "[ng-click=\"openModal('statistics')\"]" }, "timeout_ms": 10000 },
+    { "step_id": "wait-statistics", "action": "wait_for_timeout", "duration_ms": 1200 },
+    { "step_id": "close-statistics", "action": "click", "locator": { "kind": "css", "selector": "[ng-click=\"closeModal('statistics')\"]" }, "timeout_ms": 10000 },
+    { "step_id": "open-print", "action": "click", "locator": { "kind": "css", "selector": "[ng-click=\"openModal('print')\"]" }, "timeout_ms": 10000 },
+    { "step_id": "wait-print", "action": "wait_for_timeout", "duration_ms": 1200 },
+    { "step_id": "close-print", "action": "click", "locator": { "kind": "css", "selector": "[ng-click=\"closeModal('print')\"]" }, "timeout_ms": 10000 },
+    { "step_id": "open-more", "action": "click", "locator": { "kind": "css", "selector": "a.tab[href=\"#more\"]" }, "timeout_ms": 10000 },
+    { "step_id": "wait-more", "action": "wait_for_timeout", "duration_ms": 1200 },
+    { "step_id": "close-more", "action": "click", "locator": { "kind": "css", "selector": "[ng-click=\"closeModal('types')\"]" }, "timeout_ms": 10000 },
+    { "step_id": "open-colors", "action": "click", "locator": { "kind": "css", "selector": "[ng-click=\"setEditView('colors')\"]" }, "timeout_ms": 10000 },
+    { "step_id": "wait-colors", "action": "wait_for_timeout", "duration_ms": 800 },
+    { "step_id": "open-logo", "action": "click", "locator": { "kind": "css", "selector": "[ng-click=\"setEditView('logo')\"]" }, "timeout_ms": 10000 },
+    { "step_id": "wait-logo", "action": "wait_for_timeout", "duration_ms": 800 },
+    { "step_id": "open-design", "action": "click", "locator": { "kind": "css", "selector": "[ng-click=\"setEditView('shape')\"]" }, "timeout_ms": 10000 },
+    { "step_id": "wait-design", "action": "wait_for_timeout", "duration_ms": 800 },
+    { "step_id": "open-templates", "action": "click", "locator": { "kind": "css", "selector": "[ng-click=\"showTemplates=true\"]" }, "timeout_ms": 10000 },
+    { "step_id": "wait-templates", "action": "wait_for_timeout", "duration_ms": 1500 }
+  ],
+  "capture": { "after_each_step": ["screenshot", "accessibility", "url"], "events": ["console", "page-errors", "network"] }
+}

@@ -1,0 +1,19 @@
+# Third-party reference material (internal only)
+research/reference-screenshots/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+dist/
+coverage/
+.turbo/
+*.tsbuildinfo
+
+# Env & local
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+.vercel/

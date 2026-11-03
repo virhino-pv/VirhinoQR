@@ -1,0 +1,13 @@
+{
+  "browser": { "mode": "launch", "executable_path": "C:/Program Files/Google/Chrome/Application/chrome.exe" },
+  "start_url": { "url": "https://www.qrcode-monkey.com/" },
+  "environment": { "viewport": { "width": 390, "height": 844, "device_scale_factor": 2 } },
+  "actions": [
+    { "step_id": "settle", "action": "wait_for_timeout", "duration_ms": 4000 },
+    { "step_id": "create-qr-mobile", "action": "click", "locator": { "kind": "css", "selector": "[ng-click=\"qrcodeGenerator()\"]" }, "timeout_ms": 15000 },
+    { "step_id": "wait-preview", "action": "wait_for_timeout", "duration_ms": 5000 },
+    { "step_id": "open-mobile-menu", "action": "click", "locator": { "kind": "css", "selector": "a[ng-click='setMobileMenu()']:not([href]) >> visible=true" }, "timeout_ms": 10000 },
+    { "step_id": "wait-menu", "action": "wait_for_timeout", "duration_ms": 1000 }
+  ],
+  "capture": { "after_each_step": ["screenshot"], "events": ["page-errors"] }
+}

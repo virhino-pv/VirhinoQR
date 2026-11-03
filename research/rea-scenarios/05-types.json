@@ -1,0 +1,19 @@
+{
+  "browser": { "mode": "launch", "executable_path": "C:/Program Files/Google/Chrome/Application/chrome.exe" },
+  "start_url": { "url": "https://www.qrcode-monkey.com/#vcard" },
+  "environment": { "viewport": { "width": 1440, "height": 1300 } },
+  "actions": [
+    { "step_id": "settle-vcard", "action": "wait_for_timeout", "duration_ms": 4000 },
+    { "step_id": "tab-maps", "action": "click", "locator": { "kind": "css", "selector": "a.tab[href='#maps']" }, "timeout_ms": 10000 },
+    { "step_id": "wait-maps", "action": "wait_for_timeout", "duration_ms": 2500 },
+    { "step_id": "tab-event", "action": "click", "locator": { "kind": "css", "selector": "a.tab[href='#event']" }, "timeout_ms": 10000 },
+    { "step_id": "wait-event", "action": "wait_for_timeout", "duration_ms": 800 },
+    { "step_id": "tab-wifi", "action": "click", "locator": { "kind": "css", "selector": "a.tab[href='#wifi']" }, "timeout_ms": 10000 },
+    { "step_id": "wait-wifi", "action": "wait_for_timeout", "duration_ms": 800 },
+    { "step_id": "tab-bitcoin", "action": "click", "locator": { "kind": "css", "selector": "a.tab[href='#bitcoin']" }, "timeout_ms": 10000 },
+    { "step_id": "wait-bitcoin", "action": "wait_for_timeout", "duration_ms": 800 },
+    { "step_id": "tab-facebook", "action": "click", "locator": { "kind": "css", "selector": "a.tab[href='#facebook']" }, "timeout_ms": 10000 },
+    { "step_id": "wait-facebook", "action": "wait_for_timeout", "duration_ms": 800 }
+  ],
+  "capture": { "after_each_step": ["screenshot"], "events": ["page-errors"] }
+}
