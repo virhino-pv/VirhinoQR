@@ -17,3 +17,9 @@ coverage/
 .DS_Store
 Thumbs.db
 .vercel/
+
+# Generated
+public/wasm/
+next-env.d.ts
+playwright-report/
+test-results/
