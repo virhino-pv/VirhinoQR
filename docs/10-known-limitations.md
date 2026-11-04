@@ -1,4 +1,4 @@
-# 10 — Known limitations (M0–M8)
+# 10 — Known limitations (M0–M9)
 
 ## Verification gaps
 - **EPS is not render-verified.** Ghostscript is not installed here, so EPS files are checked structurally
@@ -51,5 +51,17 @@
 - `.xls` (Excel 97–2003) and `.ods` are not supported.
 - One design applies to every row; per-row designs are not supported.
 
+## Accounts (M9)
+- **Not live-verified:** no Supabase credentials were available. RLS was verified on PostgreSQL (PGlite) with a
+  Supabase-compatible shim, and auth/data flows end-to-end against a local emulator of the Supabase APIs.
+  Differences between the emulator and real GoTrue/PostgREST/Storage are possible — run the go-live checklist (doc 11 §11).
+- Email + password only (no OAuth, magic links or MFA yet). Changing the account email is not exposed in the UI.
+- Account deletion is not self-service yet (deleting the auth user in Supabase cascades all rows; logo files must be removed from storage separately).
+- History stores type, label, format and a design snapshot — not the content — so “Reuse design” reopens the look but the form must be filled again.
+- Logos in saved projects/templates are stored as processed PNGs (not the original upload).
+- The proxy treats an unreachable Auth server as “signed out” (dashboard redirects to login).
+- Under parallel E2E load the first server actions on a cold `next start` can take several seconds; tests allow for this.
+- Branding: dashboard and auth screens use the VirhinoQR violet/blue accents; the public site still shows the “QR Studio” name — a full rename was not done to avoid redesigning the public pages.
+
 ## Out of scope (not started, by instruction)
-M9 authentication · M10 dynamic QR · M11 analytics · M12 API.
+M10 dynamic QR · M10 dynamic QR · M11 analytics · M12 API.

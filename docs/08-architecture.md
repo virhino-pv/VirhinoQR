@@ -1,4 +1,4 @@
-# 08 — Architecture as built (M0–M8)
+# 08 — Architecture as built (M0–M9)
 
 This documents what was actually implemented. Differences from the plan in doc 04/05 are listed in §7.
 
@@ -39,6 +39,10 @@ with no DOM access, so the same code runs in Node (tests) and could run on a ser
 | `lib/image` | Magic-byte validation, DOMPurify SVG sanitising + external-reference stripping, border flood-fill background removal, area-average resampling, original icon gallery | Uploaded SVGs are rasterised after sanitising — user markup never reaches an export |
 | `lib/templates` | Built-in templates (single source for the homepage showcase), user-template model, Zod-validated JSON import/export, IndexedDB storage | M7 |
 | `lib/bulk` | `parse` (PapaParse / read-excel-file → string table, limits), `mapping` (auto-map, type column, option matching, row validation, unique file names), `generate` (renderer-injected loop with progress/abort, CSV reports with formula-injection guard, fflate ZIP) | M8; the same loop runs in Node tests with resvg |
+| `lib/supabase` | `config` (env validation, refuses secret keys), `server` (per-request SSR client, `getSessionUser` via `getUser()`), `browser` (singleton) | M9; returns null when accounts are not configured |
+| `lib/auth` | Zod schemas for register/login/reset/profile, Supabase error mapping, `safeNext` | M9; shared by client forms and server actions |
+| `lib/account` | Row parsing (re-validates designs/form values), data access for projects/history/templates/logos, `useAccount` hook | M9; every query also enforced by RLS |
+| `src/proxy.ts` | Session refresh (`getClaims`) and optimistic redirects | M9 |
 | `lib/store/studio` | Zustand: type, per-type drafts, touched fields, design, logo, export settings | Seeded from `?type=&url=` per request |
 
 ## 3. UI composition
@@ -86,3 +90,13 @@ form explaining that hosting/landing pages/smart redirects need the dynamic tier
 | Leaflet map for Location | Latitude/longitude fields + "Use my current location" | Avoids a third-party tile/geocoding dependency in M2 |
 | `next/font` | `@fontsource-variable` packages | No build-time network fetch |
 | ≥ 12 body / 10 frame / 10 ball shapes | 10 / 7 / 7 | Only shapes that pass the decode matrix ship; "sparkle" ball was removed after failing |
+
+## 8. Accounts (M9)
+```
+ browser ──(publishable key + user JWT cookie)──▶ Supabase Auth / PostgREST / Storage ──▶ Postgres (RLS: auth.uid())
+    ▲                                                     ▲
+    │ server actions, server components ──────────────────┘   (same key + cookies; never the service-role key)
+    │
+ src/proxy.ts: refresh cookies, redirect /dashboard/* when signed out (optimistic)
+```
+Details, schema, RLS and setup: doc 11.

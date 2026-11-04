@@ -20,9 +20,13 @@ export default async function CreatePage({ searchParams }: { searchParams: Searc
   if (initialType === "url" && url) prefill.url = url;
   const type = getContentType(initialType)!;
   const template = typeof params.template === "string" ? getBuiltinTemplate(params.template) : undefined;
+  const uuid = (v: unknown) => (typeof v === "string" && /^[0-9a-f-]{36}$/i.test(v) ? v : undefined);
+  const projectId = uuid(params.project);
+  const historyId = uuid(params.history);
+  const userTemplateId = uuid(params.usertemplate);
   return (
     <>
-      <Studio key={`${initialType}:${template?.id ?? ""}`} initialType={initialType} prefill={prefill} initialDesign={template?.design} />
+      <Studio key={`${initialType}:${template?.id ?? ""}:${projectId ?? ""}:${historyId ?? ""}:${userTemplateId ?? ""}`} initialType={initialType} prefill={prefill} initialDesign={template?.design} projectId={projectId} historyId={historyId} userTemplateId={userTemplateId} />
       <noscript>
         <p className="p-6 text-center">QR Studio generates {type.label} codes in your browser and needs JavaScript enabled.</p>
       </noscript>

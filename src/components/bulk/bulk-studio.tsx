@@ -20,6 +20,8 @@ import { Checkbox, Select } from "@/components/ui/field";
 import { Notice } from "@/components/ui/notice";
 import { Slider } from "@/components/ui/slider";
 import { MappingEditor } from "./mapping-editor";
+import { useAccount } from "@/lib/account/use-account";
+import { recordHistory } from "@/lib/account/repo";
 import { RowsTable } from "./rows-table";
 
 const browserRenderers: Renderers = {
@@ -55,6 +57,7 @@ const csvBlob = (text: string) => new Blob([text], { type: "text/csv;charset=utf
 export function BulkStudio() {
   const design = useStudio((s) => s.design);
   const logo = useStudio((s) => s.logo);
+  const account = useAccount();
 
   const [file, setFile] = useState<{ name: string; bytes: Uint8Array } | null>(null);
   const [hasHeader, setHasHeader] = useState(true);
@@ -351,7 +354,21 @@ export function BulkStudio() {
                     <Button
                       data-testid="bulk-zip"
                       disabled={result.items.length === 0}
-                      onClick={() => triggerDownload(new Blob([buildZip(rows, result.items) as BlobPart], { type: "application/zip" }), `qr-studio-bulk-${stamp()}.zip`)}
+                      onClick={() => {
+                        triggerDownload(new Blob([buildZip(rows, result.items) as BlobPart], { type: "application/zip" }), `qr-studio-bulk-${stamp()}.zip`);
+                        const first = result.items[0]?.row.type;
+                        if (account.status === "signed-in" && first) {
+                          const types = [...new Set(result.items.map((i) => i.row.type))];
+                          void recordHistory(account.supabase, {
+                            contentType: first,
+                            label: `Bulk · ${result.items.length} codes${file ? ` · ${file.name}` : ""}`,
+                            action: "bulk",
+                            format: "zip",
+                            design,
+                            metadata: { count: result.items.length, types: types.join(","), size: sizePx },
+                          });
+                        }
+                      }}
                     >
                       Download all as ZIP
                     </Button>

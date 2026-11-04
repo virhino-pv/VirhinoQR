@@ -13,6 +13,9 @@ import { Notice } from "@/components/ui/notice";
 import { Segmented } from "@/components/ui/segmented";
 import { Slider } from "@/components/ui/slider";
 import type { Pipeline } from "./use-qr-pipeline";
+import { useAccount } from "@/lib/account/use-account";
+import { recordHistory } from "@/lib/account/repo";
+import { downloadHistoryLabel } from "@/lib/account/model";
 
 const FORMATS: ReadonlyArray<{ value: ExportFormat; label: string }> = [
   { value: "png", label: "PNG" },
@@ -43,6 +46,7 @@ export function ExportPanel({ pipeline }: { pipeline: Pipeline }) {
   const [status, setStatus] = useState<Status>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [sizeText, setSizeText] = useState(String(settings.sizePx));
+  const account = useAccount();
 
   const { scene, result, scan, issues } = pipeline;
   const ready = Boolean(scene) && result.status === "ok";
@@ -68,6 +72,19 @@ export function ExportPanel({ pipeline }: { pipeline: Pipeline }) {
         verified = texts.includes(result.payload) ? " Verified: the file scans." : " Warning: our scanner could not read the exported image.";
       } else if (scan === "pass") verified = " Same design as the scan-checked preview.";
       triggerDownload(out.blob, filename);
+      if (account.status === "signed-in") {
+        // One history entry per explicit download (never per render). No content is stored.
+        const s = useStudio.getState();
+        void recordHistory(account.supabase, {
+          contentType: typeId,
+          label: downloadHistoryLabel(typeId, getContentType(typeId)!.label, result.hint, s.project?.name),
+          action: "download",
+          format: settings.format,
+          projectId: s.project?.id ?? null,
+          design: s.design,
+          metadata: { version: scene.version, ec: scene.ec, size: isVector ? `${settings.printMm}mm` : `${settings.sizePx}px` },
+        });
+      }
       setStatus({ tone: verified.startsWith(" Warning") ? "error" : "success", text: `Downloaded ${filename} — ${out.dimensions}, ${formatBytes(out.bytes)}.${verified}` });
     } catch (e) {
       setStatus({ tone: "error", text: e instanceof Error ? e.message : "The export failed." });

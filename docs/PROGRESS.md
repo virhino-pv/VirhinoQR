@@ -1,4 +1,4 @@
-# Development progress — M0–M8
+# Development progress — M0–M9
 
 Milestone numbering follows the approved execution brief (M0 foundation … M6 export), which differs
 from the order in doc 06. A box is ticked only after its check actually ran.
@@ -8,6 +8,8 @@ from the order in doc 06. A box is ticked only after its check actually ran.
 **M7 verification (2026-11-04):** typecheck ✔ · lint ✔ · build ✔ · unit 221/221 ✔ (3 consecutive runs) · E2E 59/59 ✔
 
 **M8 verification (2026-11-04):** typecheck ✔ · lint ✔ · build ✔ · unit 242/242 ✔ · E2E 68/68 ✔
+
+**M9 verification (2026-11-04):** typecheck ✔ · lint ✔ · build ✔ · unit 309/309 ✔ · E2E 82/82 ✔ (69 regression + 13 accounts)
 
 Note: one unit run reported 6 files / 205 tests (the jsdom-based `logo.test.ts` not collected, no error shown). Not reproducible in 4 subsequent runs; watch for it in CI.
 
@@ -77,5 +79,19 @@ Note: one unit run reported 6 files / 205 tests (the jsdom-based `logo.test.ts` 
 - [x] E2E (Chrome): 10/100/500 rows through the UI, ZIP unzipped and **every PNG decoded in Node**; XLSX mixed types + template + logo; manual mapping; cancel at 500; invalid files; sample round-trip; responsive + axe
 - [x] Bugs found and fixed: Excel times one minute early (float day fractions, now rounded to the second); a row with an unreadable option cell was "empty" instead of "invalid"; resvg test helper loaded all system fonts (about 500 ms per image, now about 10 ms)
 
+## M9 — Authentication & dashboard (approved 2026-11-04)
+- [x] Architecture assessment (doc 11 §1); accounts optional — no Supabase env = M8 behaviour
+- [x] Migration `supabase/migrations/20261104120000_m9_accounts.sql`: profiles, qr_projects, qr_history, user_templates, private `user-logos` bucket
+- [x] RLS on all tables (auth.uid()), no anon privileges, column grants, composite FK for history, revision trigger, profile triggers, `ensure_profile()`
+- [x] @supabase/ssr browser/server clients, Next 16 `src/proxy.ts`, config validation refusing secret keys
+- [x] Register (validation, duplicate email, verification required), verify-email + resend, login (invalid/unverified), logout, forgot/reset password, `/auth/callback` (token_hash + PKCE)
+- [x] Profile settings (own row only; email/id immutable)
+- [x] Saved projects: save/update (revision check)/save as new/open in studio (content + private logo)/duplicate/delete/search/filter/empty state
+- [x] History: downloads, saves, bulk ZIP; no content stored; filters, paging, reopen, delete, clear
+- [x] Template sync: device vs account vs built-in, upload local (never deletes), conflict detection, import/export kept
+- [x] Dashboard (overview, projects, history, templates, settings), responsive, violet/blue accents
+- [x] Tests: RLS on PGlite (21), app logic (41), secrets (5), accounts E2E via emulator (13), no-accounts mode (1)
+- [ ] Live verification against the Supabase project — **no credentials provided** (doc 11 §11 checklist)
+
 ## Not started (by instruction)
-M9 auth · M10 dynamic QR · M11 analytics · M12 API
+M10 dynamic QR · M11 analytics · M12 API

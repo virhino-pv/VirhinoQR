@@ -1,4 +1,4 @@
-# 09 — Feature completion report (M0–M8)
+# 09 — Feature completion report (M0–M9)
 
 M0–M6 verified on 2026-11-04 with: `npm run typecheck` (clean), `npm run lint` (clean), `npm run build`
 (success), `npm test` — **198/198 passed** (6 files), `npm run test:e2e` — **51/51 passed** in Google Chrome 156.
@@ -88,3 +88,25 @@ explain what is missing.
 | 14. Error report | errors.csv (invalid, empty, failed and scan-failed rows) | unit + E2E |
 | 15. CSV generation report | one line per input row: status, files, version, EC, scan check, payload, errors | unit + E2E |
 | Scale 10 / 100 / 500 | Node: every code decoded. Chrome: 500 rows generated and scan-checked in about 70 s at 256 px, then every PNG re-decoded in Node | `bulk.test.ts`, `bulk.spec.ts` |
+
+## M9 — Authentication & user dashboard (verified 2026-11-04: unit 309/309, E2E 82/82)
+
+### Fully implemented and tested (locally: PGlite + Supabase emulator)
+| Feature | Evidence |
+|---|---|
+| Registration with validation, duplicate email, verification required, resend | `auth.test.ts`, `accounts-auth.spec.ts` |
+| Login (invalid credentials, unverified), remembered SSR session, `?next` with open-redirect protection, logout | `auth.test.ts`, `accounts-auth.spec.ts` |
+| Password reset (request, generic answer, link, new password, old rejected, link single-use, invalid link page) | `accounts-auth.spec.ts` |
+| Protected routes for anonymous users; public QR features unchanged | `accounts-auth.spec.ts`, `no-accounts.spec.ts`, full M0–M8 suite |
+| Profiles (trigger-created, own updates only, email/id immutable, https avatar) | `rls.test.ts`, `accounts-data.spec.ts` |
+| Saved projects incl. private logo, update with conflict detection, duplicate, search/filter, delete | `rls.test.ts`, `accounts-data.spec.ts` |
+| History (no content/secrets stored, filters, reopen, delete, clear, bulk entry) | `auth.test.ts`, `accounts-data.spec.ts` |
+| Template sync (upload local, cross-device, stale rename rejected, delete everywhere, local kept) | `rls.test.ts`, `accounts-data.spec.ts` |
+| User A/B isolation: tables + storage, UI and direct API with B's own valid token, anon denied | `rls.test.ts` (21 SQL tests), `accounts-data.spec.ts` › user isolation |
+| Secrets: canary service-role key and DB URL absent from client bundles; app never reads/logs them | `accounts-security.spec.ts`, `secrets.test.ts` |
+
+### Implemented but not live-tested
+Everything above against the real Supabase project `gcexwwtvnevrtoltfhoa` (no credentials were provided); real email delivery; Supabase rate limits.
+
+### Requires manual configuration
+Env vars, migration push, auth settings (confirm email, redirect URLs, templates, SMTP) — doc 11 §3–§5.

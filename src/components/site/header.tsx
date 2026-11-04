@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { Brand } from "./brand";
+import { AccountLink } from "./account-link";
 import { ButtonLink } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 
@@ -48,6 +49,7 @@ export function Header() {
           </ul>
         </nav>
         <div className="flex items-center gap-2">
+          <AccountLink className="hidden sm:inline-flex" />
           <ButtonLink href="/create" size="sm" className={cn(pathname === "/create" && "hidden sm:inline-flex")}>
             Create QR code
           </ButtonLink>
@@ -72,6 +74,9 @@ export function Header() {
               </Link>
             </li>
           ))}
+          <li className="sm:hidden">
+            <AccountLink className="h-12 w-full justify-start px-3 text-base" onNavigate={() => setOpen(false)} testId="account-link-mobile" />
+          </li>
           <li>
             <Link href="/create" onClick={() => setOpen(false)} className="block rounded-tile px-3 py-3 text-base font-semibold text-brand-700 hover:bg-surface-2">
               Open the QR studio →

@@ -5,6 +5,7 @@ import { ImagePlus, LayoutTemplate, Palette, Settings2, Shapes } from "lucide-re
 import type { ContentTypeId, FormValues } from "@/lib/payloads";
 import type { Design } from "@/lib/qr/engine/types";
 import { TemplatesPanel } from "./templates-panel";
+import { SaveProjectPanel, useOpenFromAccount } from "./save-project-panel";
 import { initStudio, useStudio } from "@/lib/store/studio";
 import { TypePicker } from "./type-picker";
 import { ContentForm } from "./content-form";
@@ -14,13 +15,14 @@ import { PreviewPanel, ScanBadge } from "./preview-panel";
 import { ExportPanel } from "./export-panel";
 import { useQrPipeline } from "./use-qr-pipeline";
 
-export function Studio({ initialType, prefill, initialDesign }: { initialType: ContentTypeId; prefill: FormValues; initialDesign?: Design }) {
+export function Studio({ initialType, prefill, initialDesign, projectId, historyId, userTemplateId }: { initialType: ContentTypeId; prefill: FormValues; initialDesign?: Design; projectId?: string; historyId?: string; userTemplateId?: string }) {
   // Seed the store from the URL exactly once, before the first render reads it.
   const [seeded] = useState(() => {
     initStudio(initialType, prefill, initialDesign);
     return true;
   });
   const pipeline = useQrPipeline();
+  const opened = useOpenFromAccount(projectId, historyId, userTemplateId);
   const transparent = useStudio((s) => s.design.background.transparent);
   const hasLogo = useStudio((s) => s.logo !== null);
   const { scene } = pipeline;
@@ -38,7 +40,7 @@ export function Studio({ initialType, prefill, initialDesign }: { initialType: C
               <h2 className="text-base font-semibold">3. Customise</h2>
               <ResetDesignButton />
             </div>
-            <Pane title="Templates" icon={<LayoutTemplate className="size-5" aria-hidden="true" />} defaultOpen={Boolean(initialDesign)} testId="pane-templates">
+            <Pane title="Templates" icon={<LayoutTemplate className="size-5" aria-hidden="true" />} defaultOpen={Boolean(initialDesign || userTemplateId)} testId="pane-templates">
               <TemplatesPanel previewText={pipeline.result.status === "ok" ? pipeline.result.payload : null} />
             </Pane>
             <Pane title="Colours" icon={<Palette className="size-5" aria-hidden="true" />} defaultOpen testId="pane-colours">
@@ -57,6 +59,7 @@ export function Studio({ initialType, prefill, initialDesign }: { initialType: C
           <aside id="preview" className="space-y-4 lg:sticky lg:top-20" aria-label="Preview and download">
             <PreviewPanel pipeline={pipeline} transparent={transparent} />
             <ExportPanel pipeline={pipeline} />
+            <SaveProjectPanel pipeline={pipeline} openStatus={opened.status} />
           </aside>
         </div>
       </div>

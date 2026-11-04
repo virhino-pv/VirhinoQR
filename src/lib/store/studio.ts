@@ -28,6 +28,8 @@ export interface StudioState {
   design: Design;
   logo: LogoAsset | null;
   exportSettings: ExportSettings;
+  /** Saved project currently open in the studio (accounts, M9). */
+  project: { id: string; name: string; revision: number } | null;
 
   setType(id: ContentTypeId): void;
   setField(name: string, value: string | boolean): void;
@@ -39,6 +41,9 @@ export interface StudioState {
   applyDesign(design: Design, logo?: LogoAsset): void;
   setLogo(logo: LogoAsset | null): void;
   setExport(patch: Partial<ExportSettings>): void;
+  setProject(project: StudioState["project"]): void;
+  /** Loads a saved project (content, design, logo) into the studio. */
+  openProject(input: { typeId: ContentTypeId; values: FormValues; design: Design; logo: LogoAsset | null; project: StudioState["project"] }): void;
 }
 
 export function initialValues(id: ContentTypeId): FormValues {
@@ -55,6 +60,7 @@ export const useStudio = create<StudioState>((set) => ({
   design: cloneDesign(),
   logo: null,
   exportSettings: { format: "png", sizePx: 1024, printMm: 50, dpi: 300 },
+  project: null,
 
   setType: (id) =>
     set((s) => ({
@@ -78,6 +84,9 @@ export const useStudio = create<StudioState>((set) => ({
   applyDesign: (design, logo) => set(logo ? { design: structuredClone(design), logo } : { design: structuredClone(design) }),
   setLogo: (logo) => set({ logo }),
   setExport: (patch) => set((s) => ({ exportSettings: { ...s.exportSettings, ...patch } })),
+  setProject: (project) => set({ project }),
+  openProject: ({ typeId, values, design, logo, project }) =>
+    set({ typeId, touched: {}, drafts: { [typeId]: { ...initialValues(typeId), ...values } }, design: structuredClone(design), logo, project }),
 }));
 
 /**
@@ -86,7 +95,7 @@ export const useStudio = create<StudioState>((set) => ({
  */
 export function initStudio(typeId: ContentTypeId, prefill: FormValues, design?: Design) {
   const values = { ...initialValues(typeId), ...prefill };
-  useStudio.setState({ typeId, touched: {}, drafts: { [typeId]: values }, design: design ? structuredClone(design) : cloneDesign(), logo: null });
+  useStudio.setState({ typeId, touched: {}, drafts: { [typeId]: values }, design: design ? structuredClone(design) : cloneDesign(), logo: null, project: null });
 }
 
 export function currentValues(s: Pick<StudioState, "drafts" | "typeId">): FormValues {
