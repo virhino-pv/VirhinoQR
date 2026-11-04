@@ -1,4 +1,6 @@
-# QR Studio
+# VirhinoQR
+
+https://virhinoqr.virhino.com — formerly developed under the working name “QR Studio”.
 
 An original QR code generator: 22 content types, live preview with a real in-browser scan check,
 colours, gradients, shapes, logo processing, templates, bulk generation from CSV/XLSX and PNG / SVG / PDF / EPS export. Everything runs in the
@@ -79,6 +81,7 @@ docs/                     Research (01–07), architecture as built (08), comple
 9. [Feature completion report M0–M9](docs/09-feature-completion-report.md)
 10. [Known limitations](docs/10-known-limitations.md)
 11. [Accounts, Supabase setup & security](docs/11-accounts-supabase.md)
+12. [Deploying to Vercel (Guest Mode)](docs/12-deployment-vercel.md)
 - [Progress checklist](docs/PROGRESS.md)
 
 ## Research

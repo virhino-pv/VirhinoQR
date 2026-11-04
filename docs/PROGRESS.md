@@ -93,5 +93,13 @@ Note: one unit run reported 6 files / 205 tests (the jsdom-based `logo.test.ts` 
 - [x] Tests: RLS on PGlite (21), app logic (41), secrets (5), accounts E2E via emulator (13), no-accounts mode (1)
 - [ ] Live verification against the Supabase project — **no credentials provided** (doc 11 §11 checklist)
 
+## Production preparation — Vercel, Guest Mode (2026-11-04)
+- [x] `NEXT_PUBLIC_SITE_URL=https://virhinoqr.virhino.com` via committed `.env.production` (public value only, test-enforced) + Vercel production fallback in `src/lib/site.ts`
+- [x] Public branding renamed to VirhinoQR (wordmark, titles, metadata, footer, FAQ, notices); violet→blue logo mark with cyan accent; theme colour #5E17EB
+- [x] Homepage/templates demo codes now encode the real site URL
+- [x] `robots.txt` and `sitemap.xml` with the production origin
+- [x] Kept for compatibility (unchanged): download file-name prefixes `qr-…`/`qr-studio-…`, templates file format id, IndexedDB name, PDF/EPS creator metadata, event PRODID
+- [ ] Deployment and DNS — awaiting approval (doc 12)
+
 ## Not started (by instruction)
 M10 dynamic QR · M11 analytics · M12 API

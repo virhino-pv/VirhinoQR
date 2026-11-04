@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: "Ready-made QR code designs — gradients, rounded and dotted styles, print-safe settings. Every template is scan-tested.",
 };
 
-const SAMPLE = "https://qr-studio.example/templates";
+const SAMPLE = "https://virhinoqr.virhino.com/templates";
 
 export default function TemplatesPage() {
   return (

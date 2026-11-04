@@ -15,6 +15,8 @@ coverage/
 .env
 .env.*
 !.env.example
+# Public production settings only (see the file header; enforced by tests/unit/secrets.test.ts)
+!.env.production
 .DS_Store
 Thumbs.db
 .vercel/

@@ -6,7 +6,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { SHOWCASE_STYLES } from "@/lib/qr/presets";
 import { cn } from "@/lib/cn";
 
-const DEMO_TEXT = "https://qr-studio.example/welcome";
+const DEMO_TEXT = "https://virhinoqr.virhino.com";
 
 /** Every image here is rendered live by the engine. */
 export function StyleShowcase() {

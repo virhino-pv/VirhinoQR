@@ -35,7 +35,7 @@ export function TypeGrid() {
     {
       title: "Links to content you host",
       tier: "linked" as const,
-      note: "These codes open your existing file, page or profile. Hosting uploads with QR Studio needs the upcoming dynamic tier.",
+      note: "These codes open your existing file, page or profile. Hosting uploads with VirhinoQR needs the upcoming dynamic tier.",
     },
   ];
   return (
@@ -146,11 +146,11 @@ export function UseCases() {
 }
 
 export const FAQ: Array<{ q: string; a: string }> = [
-  { q: "Is QR Studio free?", a: "Yes. Static QR codes — everything on this site today — are free to create and download, with no watermark and no sign-up." },
+  { q: "Is VirhinoQR free?", a: "Yes. Static QR codes — everything on this site today — are free to create and download, with no watermark and no sign-up." },
   { q: "Do my QR codes expire?", a: "No. A static code stores its content directly in the pattern, so it keeps working as long as the content (for example your web page) exists." },
   { q: "Is my data uploaded?", a: "No. Codes, logos and downloads are generated in your browser. Nothing you type is sent to our servers." },
   { q: "Can I change where a code points after printing?", a: "Not with a static code — the content is fixed inside it. Editable (dynamic) codes with scan statistics need an account and server, which are planned but not available yet." },
-  { q: "Will a logo stop my code from scanning?", a: "A logo hides part of the code; error correction recovers it up to a limit. QR Studio raises error correction automatically, warns when the logo is too big and decode-tests the result." },
+  { q: "Will a logo stop my code from scanning?", a: "A logo hides part of the code; error correction recovers it up to a limit. VirhinoQR raises error correction automatically, warns when the logo is too big and decode-tests the result." },
   { q: "Which format should I download?", a: "PNG for screens and quick printing, SVG for websites and design tools, PDF or EPS for professional print. Vector formats stay sharp at any size." },
   { q: "Why should I test before printing?", a: "Paper, lighting and phone cameras vary. Our built-in check is a strong signal, but always scan a printed proof with a couple of phones before a large print run." },
 ];

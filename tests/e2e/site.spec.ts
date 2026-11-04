@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { decodePng, rasterizeSvg } from "../helpers/render";
 import { expectScans } from "./helpers";
 
 async function noHorizontalOverflow(page: Page) {
@@ -134,4 +135,27 @@ test("404 page offers a way back", async ({ page }) => {
   const res = await page.goto("/does-not-exist");
   expect(res?.status()).toBe(404);
   await expect(page.getByRole("heading", { name: "Page not found" })).toBeVisible();
+});
+
+test("production identity: VirhinoQR branding, canonical URL, robots and sitemap", async ({ page, request }) => {
+  await page.goto("/");
+  await expect(page).toHaveTitle(/^VirhinoQR — design QR codes that scan$/);
+  await expect(page.getByRole("link", { name: "VirhinoQR home" }).first()).toBeVisible();
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute("content", "https://virhinoqr.virhino.com");
+  await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute("content", "VirhinoQR");
+  await expect(page.locator("footer")).toContainText("VirhinoQR by Virhino");
+  await expect(page.locator("body")).not.toContainText("QR Studio");
+
+  const robots = await (await request.get("/robots.txt")).text();
+  expect(robots).toContain("Sitemap: https://virhinoqr.virhino.com/sitemap.xml");
+  expect(robots).toContain("Disallow: /dashboard");
+  const sitemap = await (await request.get("/sitemap.xml")).text();
+  for (const path of ["/", "/create", "/templates", "/bulk"]) expect(sitemap).toContain(`<loc>https://virhinoqr.virhino.com${path}</loc>`);
+});
+
+test("homepage demo codes point to the real site", async ({ page }) => {
+  await page.goto("/");
+  const src = await page.getByRole("img", { name: /style QR code example/ }).getAttribute("src");
+  const svg = decodeURIComponent(src!.replace(/^data:image\/svg\+xml;charset=utf-8,/, ""));
+  expect(await decodePng(rasterizeSvg(svg, 400))).toEqual(["https://virhinoqr.virhino.com"]);
 });

@@ -1,3 +1,5 @@
+import { siteOrigin } from "../site";
+
 /**
  * Public Supabase configuration. Only the project URL and the *publishable* (anon) key may reach the
  * browser. Accounts are optional: when unconfigured the app keeps working without sign-in.
@@ -72,12 +74,7 @@ export function warnIfMisconfigured() {
   console.warn(`[supabase] ${supabaseConfig.message} Accounts are disabled.`);
 }
 
-/** Public site origin used in auth email links. */
+/** Public site origin used in auth email links (see src/lib/site.ts). */
 export function siteUrl(): string {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "http://localhost:3000";
-  try {
-    return new URL(raw).origin;
-  } catch {
-    return "http://localhost:3000";
-  }
+  return siteOrigin();
 }

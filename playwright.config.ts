@@ -38,8 +38,10 @@ export default defineConfig({
     {
       name: "accounts",
       testMatch: /[\\/]accounts-[^\\/]*\.spec\.ts$/,
-      // Multi-step auth journeys; every request also goes through the single-threaded emulator.
+      // Multi-step auth journeys; every request also goes through the single-threaded emulator, and
+      // server actions on a cold `next start` can take >15 s under full-suite load.
       timeout: 120_000,
+      expect: { timeout: 45_000 },
       use: { ...devices["Desktop Chrome"], channel: "chrome", viewport: { width: 1280, height: 900 }, baseURL: `http://localhost:${ACCOUNTS_PORT}` },
     },
   ],

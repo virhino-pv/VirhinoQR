@@ -57,7 +57,7 @@ export function Footer() {
       </div>
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-[1200px] flex-col gap-1 px-4 py-5 text-xs text-brand-200 sm:flex-row sm:justify-between sm:px-6">
-          <p>© {new Date().getFullYear()} QR Studio.</p>
+          <p>© {new Date().getFullYear()} VirhinoQR by Virhino.</p>
           <p>QR Code is a registered trademark of DENSO WAVE INCORPORATED.</p>
         </div>
       </div>

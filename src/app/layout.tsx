@@ -2,17 +2,21 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
-import { env } from "@/lib/env";
+import { SITE_NAME, siteOrigin } from "@/lib/site";
+
+const DESCRIPTION =
+  "Create custom QR codes for links, Wi-Fi, contacts, events, payments and more. Live preview, colours, gradients, shapes, logos and PNG/SVG/PDF/EPS downloads — free and private, generated in your browser.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
-  title: { default: "QR Studio — design QR codes that scan", template: "%s · QR Studio" },
-  description:
-    "Create custom QR codes for links, Wi-Fi, contacts, events, payments and more. Live preview, colours, gradients, shapes, logos and PNG/SVG/PDF/EPS downloads — free and private, generated in your browser.",
-  openGraph: { type: "website", siteName: "QR Studio" },
+  metadataBase: new URL(siteOrigin()),
+  applicationName: SITE_NAME,
+  title: { default: `${SITE_NAME} — design QR codes that scan`, template: `%s · ${SITE_NAME}` },
+  description: DESCRIPTION,
+  openGraph: { type: "website", siteName: SITE_NAME, url: "/", title: `${SITE_NAME} — design QR codes that scan`, description: DESCRIPTION },
+  twitter: { card: "summary", title: `${SITE_NAME} — design QR codes that scan`, description: DESCRIPTION },
 };
 
-export const viewport: Viewport = { themeColor: "#1E1B4B", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#5E17EB", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

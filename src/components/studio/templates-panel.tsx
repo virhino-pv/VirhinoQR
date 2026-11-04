@@ -10,7 +10,7 @@ import { QrImage } from "@/components/qr/qr-image";
 import { MyTemplates } from "@/components/templates/my-templates";
 import { cn } from "@/lib/cn";
 
-const FALLBACK_TEXT = "https://qr-studio.example";
+const FALLBACK_TEXT = "https://virhinoqr.virhino.com";
 
 export function TemplatesPanel({ previewText }: { previewText: string | null }) {
   const design = useStudio((s) => s.design);

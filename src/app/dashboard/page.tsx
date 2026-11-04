@@ -11,7 +11,7 @@ import { ProjectThumb } from "@/components/dashboard/project-thumb";
 type SP = Promise<Record<string, string | string[] | undefined>>;
 
 const NOTICES: Record<string, string> = {
-  verified: "Your email address is verified. Welcome to QR Studio!",
+  verified: "Your email address is verified. Welcome to VirhinoQR!",
   "password-updated": "Your password has been updated. Other sessions were signed out.",
 };
 

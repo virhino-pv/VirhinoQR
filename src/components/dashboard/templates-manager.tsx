@@ -15,7 +15,7 @@ export function TemplatesManager() {
         <Link href="/templates" className="font-semibold text-[#005DFB] hover:underline">built-in templates</Link> are always available.
       </p>
       <div className="rounded-modal border border-line bg-white p-5" data-testid="dashboard-templates">
-        <MyTemplates library={library} previewText="https://qr-studio.example" showSave={false} />
+        <MyTemplates library={library} previewText="https://virhinoqr.virhino.com" showSave={false} />
       </div>
     </div>
   );

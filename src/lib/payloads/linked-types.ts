@@ -9,7 +9,7 @@ import type { ContentTypeDef, FieldDef, FieldErrors, FormValues } from "./types"
  * links to content the user already hosts — and says so in the form.
  */
 
-const FUTURE = "Uploading and hosting files with QR Studio needs the dynamic tier (account + backend), which is not built yet.";
+const FUTURE = "Uploading and hosting files with VirhinoQR needs the dynamic tier (account + backend), which is not built yet.";
 
 function link(values: FormValues, name: string): string {
   const r = normalizeWebUrl(str(values, name));
@@ -251,7 +251,7 @@ export const ratingType: ContentTypeDef = {
   description: "Collect star ratings on your review page.",
   tier: "linked",
   hostingNote:
-    "A QR Studio-hosted rating form with results needs the dynamic tier (not built yet). This static code opens your existing review page.",
+    "A VirhinoQR-hosted rating form with results needs the dynamic tier (not built yet). This static code opens your existing review page.",
   fields: ratingFields,
   defaults: { platform: "google", placeId: "", domain: "", url: "" },
   validate(values) {
@@ -302,7 +302,7 @@ export const feedbackType: ContentTypeDef = {
   description: "Ask customers what they think.",
   tier: "linked",
   hostingNote:
-    "A QR Studio-hosted feedback form with an inbox needs the dynamic tier (not built yet). This static code opens a prefilled email or your existing form.",
+    "A VirhinoQR-hosted feedback form with an inbox needs the dynamic tier (not built yet). This static code opens a prefilled email or your existing form.",
   fields: feedbackFields,
   defaults: { method: "email", to: "", subject: "Feedback", prompt: "", formUrl: "" },
   validate(values) {

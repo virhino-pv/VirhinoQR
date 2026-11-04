@@ -4,7 +4,7 @@ import { getContentType, isContentTypeId, type ContentTypeId, type FormValues } 
 import { getBuiltinTemplate } from "@/lib/templates/builtin";
 
 export const metadata: Metadata = {
-  title: "QR studio — create a custom QR code",
+  title: "Create a custom QR code",
   description: "Create a QR code for a link, Wi-Fi, contact, event, payment and more. Customise colours, shapes and logo, check that it scans, then download PNG, SVG, PDF or EPS.",
 };
 
@@ -28,7 +28,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Searc
     <>
       <Studio key={`${initialType}:${template?.id ?? ""}:${projectId ?? ""}:${historyId ?? ""}:${userTemplateId ?? ""}`} initialType={initialType} prefill={prefill} initialDesign={template?.design} projectId={projectId} historyId={historyId} userTemplateId={userTemplateId} />
       <noscript>
-        <p className="p-6 text-center">QR Studio generates {type.label} codes in your browser and needs JavaScript enabled.</p>
+        <p className="p-6 text-center">VirhinoQR generates {type.label} codes in your browser and needs JavaScript enabled.</p>
       </noscript>
     </>
   );
