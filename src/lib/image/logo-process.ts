@@ -119,3 +119,10 @@ export function processLogo(source: LogoSource, options: ProcessOptions): { asse
   if (img.data.every((_, i) => i % 4 !== 3 || img.data[i] === 0)) throw new Error("Nothing visible is left in this logo.");
   return { asset: { dataUrl: toDataUrl(img), width: img.width, height: img.height, rgba: img.data, name: source.name }, removedRatio };
 }
+
+/** Rebuilds a LogoAsset (with RGBA pixels for PDF/EPS) from a stored PNG data URI. */
+export async function logoAssetFromDataUrl(dataUrl: string, name: string): Promise<LogoAsset> {
+  if (!/^data:image\/png;base64,/.test(dataUrl)) throw new Error("Stored logo is not a PNG image.");
+  const image = await rasterize(dataUrl, 0, 0);
+  return { dataUrl, width: image.width, height: image.height, rgba: image.data, name };
+}

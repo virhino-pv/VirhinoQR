@@ -10,6 +10,7 @@ import { cn } from "@/lib/cn";
 
 const NAV = [
   { href: "/#types", label: "QR types" },
+  { href: "/templates", label: "Templates" },
   { href: "/#features", label: "Features" },
   { href: "/#how-it-works", label: "How it works" },
   { href: "/#use-cases", label: "Use cases" },

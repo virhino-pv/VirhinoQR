@@ -7,6 +7,7 @@ const COLUMNS = [
     links: [
       { href: "/create", label: "QR studio" },
       { href: "/#types", label: "QR code types" },
+      { href: "/templates", label: "Templates" },
       { href: "/#features", label: "Features" },
     ],
   },

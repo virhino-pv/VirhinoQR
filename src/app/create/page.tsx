@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Studio } from "@/components/studio/studio";
 import { getContentType, isContentTypeId, type ContentTypeId, type FormValues } from "@/lib/payloads";
+import { getBuiltinTemplate } from "@/lib/templates/builtin";
 
 export const metadata: Metadata = {
   title: "QR studio — create a custom QR code",
@@ -18,9 +19,10 @@ export default async function CreatePage({ searchParams }: { searchParams: Searc
   const url = typeof params.url === "string" ? params.url.slice(0, 2000) : "";
   if (initialType === "url" && url) prefill.url = url;
   const type = getContentType(initialType)!;
+  const template = typeof params.template === "string" ? getBuiltinTemplate(params.template) : undefined;
   return (
     <>
-      <Studio key={initialType} initialType={initialType} prefill={prefill} />
+      <Studio key={`${initialType}:${template?.id ?? ""}`} initialType={initialType} prefill={prefill} initialDesign={template?.design} />
       <noscript>
         <p className="p-6 text-center">QR Studio generates {type.label} codes in your browser and needs JavaScript enabled.</p>
       </noscript>

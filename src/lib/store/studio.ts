@@ -35,6 +35,8 @@ export interface StudioState {
   touchAll(names: string[]): void;
   updateDesign(mutate: (d: Design) => void): void;
   resetDesign(): void;
+  /** Replaces the design; the logo changes only when the template carries one. */
+  applyDesign(design: Design, logo?: LogoAsset): void;
   setLogo(logo: LogoAsset | null): void;
   setExport(patch: Partial<ExportSettings>): void;
 }
@@ -73,6 +75,7 @@ export const useStudio = create<StudioState>((set) => ({
       return { design: next };
     }),
   resetDesign: () => set({ design: cloneDesign(), logo: null }),
+  applyDesign: (design, logo) => set(logo ? { design: structuredClone(design), logo } : { design: structuredClone(design) }),
   setLogo: (logo) => set({ logo }),
   setExport: (patch) => set((s) => ({ exportSettings: { ...s.exportSettings, ...patch } })),
 }));
@@ -81,9 +84,9 @@ export const useStudio = create<StudioState>((set) => ({
  * Seeds the store from the URL (?type=…&url=…) when the studio mounts. State is replaced, not
  * merged, so a server render never carries values over from an earlier request.
  */
-export function initStudio(typeId: ContentTypeId, prefill: FormValues) {
+export function initStudio(typeId: ContentTypeId, prefill: FormValues, design?: Design) {
   const values = { ...initialValues(typeId), ...prefill };
-  useStudio.setState({ typeId, touched: {}, drafts: { [typeId]: values }, design: cloneDesign(), logo: null });
+  useStudio.setState({ typeId, touched: {}, drafts: { [typeId]: values }, design: design ? structuredClone(design) : cloneDesign(), logo: null });
 }
 
 export function currentValues(s: Pick<StudioState, "drafts" | "typeId">): FormValues {

@@ -39,9 +39,14 @@ export function StyleShowcase() {
         <figcaption className="text-center text-sm text-ink-2">
           <span className="font-semibold text-ink-1">{current.name}</span> — colours, gradients, body and eye shapes are all adjustable.
         </figcaption>
-        <ButtonLink href="/create" variant="outline" size="sm">
-          Design your own
-        </ButtonLink>
+        <div className="flex flex-wrap justify-center gap-2">
+          <ButtonLink href={`/create?template=${current.id}`} size="sm">
+            Use this template
+          </ButtonLink>
+          <ButtonLink href="/templates" variant="outline" size="sm">
+            All templates
+          </ButtonLink>
+        </div>
       </figure>
     </div>
   );

@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { ImagePlus, Palette, Settings2, Shapes } from "lucide-react";
+import { ImagePlus, LayoutTemplate, Palette, Settings2, Shapes } from "lucide-react";
 import type { ContentTypeId, FormValues } from "@/lib/payloads";
+import type { Design } from "@/lib/qr/engine/types";
+import { TemplatesPanel } from "./templates-panel";
 import { initStudio, useStudio } from "@/lib/store/studio";
 import { TypePicker } from "./type-picker";
 import { ContentForm } from "./content-form";
@@ -12,10 +14,10 @@ import { PreviewPanel, ScanBadge } from "./preview-panel";
 import { ExportPanel } from "./export-panel";
 import { useQrPipeline } from "./use-qr-pipeline";
 
-export function Studio({ initialType, prefill }: { initialType: ContentTypeId; prefill: FormValues }) {
+export function Studio({ initialType, prefill, initialDesign }: { initialType: ContentTypeId; prefill: FormValues; initialDesign?: Design }) {
   // Seed the store from the URL exactly once, before the first render reads it.
   const [seeded] = useState(() => {
-    initStudio(initialType, prefill);
+    initStudio(initialType, prefill, initialDesign);
     return true;
   });
   const pipeline = useQrPipeline();
@@ -36,6 +38,9 @@ export function Studio({ initialType, prefill }: { initialType: ContentTypeId; p
               <h2 className="text-base font-semibold">3. Customise</h2>
               <ResetDesignButton />
             </div>
+            <Pane title="Templates" icon={<LayoutTemplate className="size-5" aria-hidden="true" />} defaultOpen={Boolean(initialDesign)} testId="pane-templates">
+              <TemplatesPanel previewText={pipeline.result.status === "ok" ? pipeline.result.payload : null} />
+            </Pane>
             <Pane title="Colours" icon={<Palette className="size-5" aria-hidden="true" />} defaultOpen testId="pane-colours">
               <ColorsPanel />
             </Pane>

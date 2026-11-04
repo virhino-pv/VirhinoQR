@@ -1,4 +1,4 @@
-# 10 — Known limitations (M0–M6)
+# 10 — Known limitations (M0–M7)
 
 ## Verification gaps
 - **EPS is not render-verified.** Ghostscript is not installed here, so EPS files are checked structurally
@@ -30,10 +30,14 @@
 
 ## Design / UX
 - Shape set is smaller than planned (10 body, 7 frame, 7 ball); only decode-verified shapes ship.
-- No frames/captions ("Scan me"), templates, saved designs, history (M7+).
+- No frames/captions ("Scan me") and no history of generated codes.
+- **Templates are stored per browser** (IndexedDB). Clearing site data deletes them; use Export to back
+  up. Sync across devices needs accounts (M9).
+- Templates store the *design* (and optionally the logo), never the content — applying one keeps what you typed.
+- Imported template logos must be embedded PNG data (no URLs) and ≤ 3 MB each; files ≤ 10 MB, ≤ 200 templates.
 - Logo budgets are conservative estimates; the live scan check is the final word.
 - Rendering runs on the main thread (memoised); version-40 codes with complex shapes may feel slower on low-end devices.
 - No dark mode, no localisation (English only).
 
 ## Out of scope (not started, by instruction)
-M7 templates · M8 bulk QR · M9 authentication · M10 dynamic QR · M11 analytics · M12 API.
+M8 bulk QR · M9 authentication · M10 dynamic QR · M11 analytics · M12 API.

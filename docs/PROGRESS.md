@@ -1,9 +1,13 @@
-# Development progress — M0–M6
+# Development progress — M0–M7
 
 Milestone numbering follows the approved execution brief (M0 foundation … M6 export), which differs
 from the order in doc 06. A box is ticked only after its check actually ran.
 
-**Final verification (2026-11-04):** typecheck ✔ · lint ✔ · `npm run build` ✔ · unit 198/198 ✔ · E2E 51/51 ✔ (Chrome 156)
+**M6 verification (2026-11-04):** typecheck ✔ · lint ✔ · build ✔ · unit 198/198 ✔ · E2E 51/51 ✔ (Chrome 156)
+
+**M7 verification (2026-11-04):** typecheck ✔ · lint ✔ · build ✔ · unit 221/221 ✔ (3 consecutive runs) · E2E 59/59 ✔
+
+Note: one unit run reported 6 files / 205 tests (the jsdom-based `logo.test.ts` not collected, no error shown). Not reproducible in 4 subsequent runs; watch for it in CI.
 
 ## Recovery audit (after "API Error: The response stopped arriving")
 - [x] Git intact (only `cc66bcf`); all new work untracked and complete — nothing lost or reset
@@ -46,5 +50,16 @@ from the order in doc 06. A box is ticked only after its check actually ran.
 ## Documentation
 - [x] README, doc 08 architecture as built, doc 09 completion report, doc 10 known limitations
 
+## M7 — Templates (approved 2026-11-04)
+- [x] 14 original built-in templates in 4 categories; homepage showcase now derives from them (single source)
+- [x] Every built-in decode-tested with a short URL and a dense vCard
+- [x] Studio Templates pane: engine-rendered thumbnails of the current content, category filter, apply (keeps the user's logo)
+- [x] My templates: save current design (optionally with logo), rename, delete with confirmation — IndexedDB, survives reload
+- [x] Export to JSON / import with per-entry validation (same design schema, PNG-only logos, size/count limits, fresh ids)
+- [x] `/templates` gallery page + `/create?template=<id>` deep link; header/footer links
+- [x] Unit tests (23) + E2E (7) + responsive/axe coverage of `/templates`
+- [x] Accessibility fix: "Use template" links' accessible name now contains the visible label (WCAG 2.5.3)
+- [ ] Local history of generated codes — listed under M7 in doc 06 but not requested; awaiting decision
+
 ## Not started (by instruction)
-M7 templates · M8 bulk · M9 auth · M10 dynamic QR · M11 analytics · M12 API
+M8 bulk · M9 auth · M10 dynamic QR · M11 analytics · M12 API

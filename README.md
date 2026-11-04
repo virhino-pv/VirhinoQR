@@ -4,8 +4,8 @@ An original QR code generator: 22 content types, live preview with a real in-bro
 colours, gradients, shapes, logo processing and PNG / SVG / PDF / EPS export. Everything runs in the
 browser — no backend, no uploads, no third-party QR APIs.
 
-**Status:** milestones M0–M6 implemented and tested (see [docs/PROGRESS.md](docs/PROGRESS.md)).
-M7+ (templates, bulk, accounts, dynamic QR, analytics, API) are not started.
+**Status:** milestones M0–M7 implemented and tested (see [docs/PROGRESS.md](docs/PROGRESS.md)).
+M8+ (bulk, accounts, dynamic QR, analytics, API) are not started.
 
 ## Quick start
 
@@ -33,7 +33,7 @@ No secrets are used or required.
 
 ```
 src/
-  app/                    Next.js routes: / (home), /create (studio), error + 404 pages
+  app/                    Next.js routes: / (home), /create (studio), /templates, error + 404 pages
   components/
     ui/                   Reusable accessible primitives (Button, Field, Segmented, Slider, ColorField, Notice)
     site/                 Header (responsive + mobile menu), Footer, brand mark
@@ -46,6 +46,7 @@ src/
     qr/export/            SVG, PDF (own writer), EPS (own PostScript L3 writer), PNG metadata, browser export
     qr/verify/            ZXing decode (browser + Node), readability heuristics
     image/                Logo validation, SVG sanitising, background removal, resampling, gallery
+    templates/            Built-in templates, user-template model, JSON import/export, IndexedDB storage
     store/                Zustand studio state
 tests/
   unit/                   Vitest: payload golden vectors, engine, real decode matrix, logo, export
@@ -62,7 +63,7 @@ docs/                     Research (01–07), architecture as built (08), comple
 6. [Development roadmap](docs/06-development-roadmap.md)
 7. [Testing checklist](docs/07-testing-checklist.md)
 8. [Architecture as built](docs/08-architecture.md)
-9. [Feature completion report M0–M6](docs/09-feature-completion-report.md)
+9. [Feature completion report M0–M7](docs/09-feature-completion-report.md)
 10. [Known limitations](docs/10-known-limitations.md)
 - [Progress checklist](docs/PROGRESS.md)
 

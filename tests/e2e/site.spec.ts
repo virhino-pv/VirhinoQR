@@ -35,8 +35,8 @@ test("homepage: style showcase renders live variants; FAQ expands", async ({ pag
   await page.goto("/");
   const group = page.getByRole("radiogroup", { name: "Example styles" });
   await expect(group.getByRole("radio")).toHaveCount(6);
-  await group.getByRole("radio", { name: /Dots/ }).click();
-  await expect(page.getByRole("img", { name: "Dots style QR code example" })).toBeVisible();
+  await group.getByRole("radio", { name: /Teal dots/ }).click();
+  await expect(page.getByRole("img", { name: "Teal dots style QR code example" })).toBeVisible();
   const q = page.getByText("Do my QR codes expire?");
   await q.click();
   await expect(page.getByText(/A static code stores its content directly/)).toBeVisible();
@@ -57,6 +57,8 @@ for (const width of [360, 390, 768, 1024, 1280, 1440]) {
   test(`responsive at ${width}px: no horizontal overflow`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/");
+    await noHorizontalOverflow(page);
+    await page.goto("/templates");
     await noHorizontalOverflow(page);
     await page.goto("/create?type=vcard");
     await noHorizontalOverflow(page);
@@ -105,10 +107,15 @@ test("accessibility: homepage has no serious axe violations", async ({ page }) =
   await axe(page);
 });
 
+test("accessibility: templates page has no serious axe violations", async ({ page }) => {
+  await page.goto("/templates");
+  await axe(page);
+});
+
 test("accessibility: studio (filled, all panes open) has no serious axe violations", async ({ page }) => {
   await page.goto("/create?type=url&url=https%3A%2F%2Fexample.com");
   await expectScans(page);
-  for (const pane of ["pane-shapes", "pane-logo", "pane-advanced"]) await page.getByTestId(pane).locator("summary").click();
+  for (const pane of ["pane-templates", "pane-shapes", "pane-logo", "pane-advanced"]) await page.getByTestId(pane).locator("summary").click();
   await axe(page);
 });
 

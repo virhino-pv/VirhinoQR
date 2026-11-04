@@ -1,6 +1,6 @@
-# 09 — Feature completion report (M0–M6)
+# 09 — Feature completion report (M0–M7)
 
-Verified on 2026-11-04 with: `npm run typecheck` (clean), `npm run lint` (clean), `npm run build`
+M0–M6 verified on 2026-11-04 with: `npm run typecheck` (clean), `npm run lint` (clean), `npm run build`
 (success), `npm test` — **198/198 passed** (6 files), `npm run test:e2e` — **51/51 passed** in Google Chrome 156.
 "Evidence" names the test that proves each item.
 
@@ -58,3 +58,15 @@ invalid files, malicious SVG).
 
 Filenames `qr-<type>-<hint>-<size>-<yyyymmdd-hhmm>.<ext>`; errors surfaced; Download disabled paths
 explain what is missing.
+
+## M7 — Templates ✅ (verified 2026-11-04: unit 221/221, E2E 59/59)
+| Item | Evidence |
+|---|---|
+| 14 built-in templates (Classic, Brand, Playful, Print) — original designs, schema-valid | `templates.test.ts` |
+| Each built-in scans with a short URL and a full vCard | `templates.test.ts` (ZXing decode) |
+| Apply from the studio (thumbnails render the user's current content), category filter, active state, reset | `templates.spec.ts` › every built-in applies and scans |
+| Save current design as template (name validation, optional logo), rename, delete with confirmation | `templates.spec.ts` › save/persist/apply/rename/delete |
+| Persistence in IndexedDB across reloads | same test (reload) |
+| Export JSON / import into another browser profile, logo restored, scans | `templates.spec.ts` › export → fresh context import |
+| Invalid imports rejected or partially skipped with reasons | `templates.test.ts`, `templates.spec.ts` |
+| `/templates` page and `?template=` deep link; homepage “Use this template” | `templates.spec.ts`, `site.spec.ts` (overflow + axe) |
