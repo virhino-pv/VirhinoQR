@@ -1,4 +1,4 @@
-# Development progress — M0–M7
+# Development progress — M0–M8
 
 Milestone numbering follows the approved execution brief (M0 foundation … M6 export), which differs
 from the order in doc 06. A box is ticked only after its check actually ran.
@@ -6,6 +6,8 @@ from the order in doc 06. A box is ticked only after its check actually ran.
 **M6 verification (2026-11-04):** typecheck ✔ · lint ✔ · build ✔ · unit 198/198 ✔ · E2E 51/51 ✔ (Chrome 156)
 
 **M7 verification (2026-11-04):** typecheck ✔ · lint ✔ · build ✔ · unit 221/221 ✔ (3 consecutive runs) · E2E 59/59 ✔
+
+**M8 verification (2026-11-04):** typecheck ✔ · lint ✔ · build ✔ · unit 242/242 ✔ · E2E 68/68 ✔
 
 Note: one unit run reported 6 files / 205 tests (the jsdom-based `logo.test.ts` not collected, no error shown). Not reproducible in 4 subsequent runs; watch for it in CI.
 
@@ -59,7 +61,21 @@ Note: one unit run reported 6 files / 205 tests (the jsdom-based `logo.test.ts` 
 - [x] `/templates` gallery page + `/create?template=<id>` deep link; header/footer links
 - [x] Unit tests (23) + E2E (7) + responsive/axe coverage of `/templates`
 - [x] Accessibility fix: "Use template" links' accessible name now contains the visible label (WCAG 2.5.3)
-- [ ] Local history of generated codes — listed under M7 in doc 06 but not requested; awaiting decision
+- [ ] Local history of generated codes — listed under M7 in doc 06 but not requested; not built
+
+## M8 — Bulk QR generation (approved 2026-11-04)
+- [x] CSV (PapaParse: quotes, BOM, `,` `;` tab `|` delimiters) and XLSX (read-excel-file: dates, numbers, booleans, sheet choice) upload — client-side only
+- [x] Limits: 5 MB, 1,000 rows, 100 columns; `.xls`, broken workbooks and empty files rejected with messages
+- [x] Column mapping: auto-match by field name/label/synonyms, manual column choice, constant value, file-name column
+- [x] Multiple content types per file via a type column (ids, labels, aliases) — all 22 types supported
+- [x] Row-level validation with the same encoders as the studio; unknown options, unmapped required fields and unknown types reported per row
+- [x] Preview table (filter, paging, live thumbnails) before generation; row-problems CSV
+- [x] Generation applies the current design (M4), templates (M7) and logo (M5); PNG and/or SVG, 128–2048 px
+- [x] Progress bar, cancellation (keeps finished codes), optional scan check of every code
+- [x] Per-row PNG/SVG downloads, ZIP (png/, svg/, report.csv, errors.csv), CSV report and error report (formula-injection safe)
+- [x] Unit: 10/100/500 rows generated and **every PNG decoded** (resvg + ZXing); mixed 22 types with logo all scan
+- [x] E2E (Chrome): 10/100/500 rows through the UI, ZIP unzipped and **every PNG decoded in Node**; XLSX mixed types + template + logo; manual mapping; cancel at 500; invalid files; sample round-trip; responsive + axe
+- [x] Bugs found and fixed: Excel times one minute early (float day fractions, now rounded to the second); a row with an unreadable option cell was "empty" instead of "invalid"; resvg test helper loaded all system fonts (about 500 ms per image, now about 10 ms)
 
 ## Not started (by instruction)
-M8 bulk · M9 auth · M10 dynamic QR · M11 analytics · M12 API
+M9 auth · M10 dynamic QR · M11 analytics · M12 API

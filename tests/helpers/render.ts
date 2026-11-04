@@ -21,7 +21,8 @@ export function setupDecoder() {
 
 /** Rasterises an SVG string to PNG bytes with resvg (independent renderer from the browser). */
 export function rasterizeSvg(svg: string, width: number, background = "#ffffff"): Uint8Array {
-  const r = new Resvg(svg, { fitTo: { mode: "width", value: width }, background });
+  // QR SVGs contain no text: skipping system-font loading makes resvg ~50x faster on Windows.
+  const r = new Resvg(svg, { fitTo: { mode: "width", value: width }, background, font: { loadSystemFonts: false } });
   return new Uint8Array(r.render().asPng());
 }
 

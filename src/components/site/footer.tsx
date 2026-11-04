@@ -8,6 +8,7 @@ const COLUMNS = [
       { href: "/create", label: "QR studio" },
       { href: "/#types", label: "QR code types" },
       { href: "/templates", label: "Templates" },
+      { href: "/bulk", label: "Bulk generator" },
       { href: "/#features", label: "Features" },
     ],
   },

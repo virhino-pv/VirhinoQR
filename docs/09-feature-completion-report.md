@@ -1,4 +1,4 @@
-# 09 — Feature completion report (M0–M7)
+# 09 — Feature completion report (M0–M8)
 
 M0–M6 verified on 2026-11-04 with: `npm run typecheck` (clean), `npm run lint` (clean), `npm run build`
 (success), `npm test` — **198/198 passed** (6 files), `npm run test:e2e` — **51/51 passed** in Google Chrome 156.
@@ -70,3 +70,21 @@ explain what is missing.
 | Export JSON / import into another browser profile, logo restored, scans | `templates.spec.ts` › export → fresh context import |
 | Invalid imports rejected or partially skipped with reasons | `templates.test.ts`, `templates.spec.ts` |
 | `/templates` page and `?template=` deep link; homepage “Use this template” | `templates.spec.ts`, `site.spec.ts` (overflow + axe) |
+
+## M8 — Bulk QR generation ✅ (verified 2026-11-04: unit 242/242, E2E 68/68)
+| Requirement | Implementation | Evidence |
+|---|---|---|
+| 1. CSV upload & parsing | PapaParse, delimiter detection, BOM, quoted commas/newlines, duplicate headers | `bulk.test.ts` › parsing |
+| 2. Excel XLSX upload | read-excel-file; dates as ISO wall time, numbers, booleans; sheet picker | `bulk.test.ts` (real .xlsx via write-excel-file), `bulk.spec.ts` › XLSX |
+| 3. Column mapping | auto by name/label/synonyms; manual column; constant value; file-name column | `bulk.test.ts` › auto-maps, `bulk.spec.ts` › manual mapping |
+| 4. Multiple content types | type column (ids, labels, aliases); all 22 types | `bulk.test.ts` › mixed sample covers all 22 |
+| 5. Row-level validation | studio encoders + option/required/unknown-type checks | `bulk.test.ts`, `bulk.spec.ts` |
+| 6. Preview before generation | filterable, paged table with live thumbnails + row-problems CSV | `bulk.spec.ts` › XLSX |
+| 7. Bulk generation | engine per row on the main thread, yielding after each code | 10/100/500 tests |
+| 8–10. Design, templates, logo | shared studio design/logo; Templates/Colours/Shapes/Logo/EC panes on /bulk | `bulk.spec.ts` › XLSX (template “Ocean” + logo, EC H) |
+| 11. Individual PNG/SVG downloads | per-row buttons in the results table | `bulk.spec.ts` › XLSX |
+| 12. ZIP of all codes | fflate; png/ (stored), svg/, report.csv, errors.csv | unit + E2E unzip |
+| 13. Progress & cancellation | progress bar; Cancel keeps finished items | `bulk.test.ts` › cancellation, `bulk.spec.ts` › cancel at 500 |
+| 14. Error report | errors.csv (invalid, empty, failed and scan-failed rows) | unit + E2E |
+| 15. CSV generation report | one line per input row: status, files, version, EC, scan check, payload, errors | unit + E2E |
+| Scale 10 / 100 / 500 | Node: every code decoded. Chrome: 500 rows generated and scan-checked in about 70 s at 256 px, then every PNG re-decoded in Node | `bulk.test.ts`, `bulk.spec.ts` |

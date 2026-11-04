@@ -1,4 +1,4 @@
-# 08 — Architecture as built (M0–M6)
+# 08 — Architecture as built (M0–M8)
 
 This documents what was actually implemented. Differences from the plan in doc 04/05 are listed in §7.
 
@@ -37,11 +37,15 @@ with no DOM access, so the same code runs in Node (tests) and could run on a ser
 | `lib/qr/export/browser` | SVG → `<img>` → canvas → PNG; pHYs DPI; output validation (dimensions, signatures, XML parse) | |
 | `lib/qr/verify` | ZXing-C++ wasm (`zxing-wasm/reader`, self-hosted at `/wasm/zxing_reader.wasm`); contrast/eye/margin/logo heuristics | |
 | `lib/image` | Magic-byte validation, DOMPurify SVG sanitising + external-reference stripping, border flood-fill background removal, area-average resampling, original icon gallery | Uploaded SVGs are rasterised after sanitising — user markup never reaches an export |
+| `lib/templates` | Built-in templates (single source for the homepage showcase), user-template model, Zod-validated JSON import/export, IndexedDB storage | M7 |
+| `lib/bulk` | `parse` (PapaParse / read-excel-file → string table, limits), `mapping` (auto-map, type column, option matching, row validation, unique file names), `generate` (renderer-injected loop with progress/abort, CSV reports with formula-injection guard, fflate ZIP) | M8; the same loop runs in Node tests with resvg |
 | `lib/store/studio` | Zustand: type, per-type drafts, touched fields, design, logo, export settings | Seeded from `?type=&url=` per request |
 
 ## 3. UI composition
 
 - `/` — server-rendered marketing page with client islands (hero quick generator, style showcase).
+- `/templates` — static gallery of built-in templates; `/create?template=<id>` applies one.
+- `/bulk` — client workflow: upload → map → design (shared studio panes and store) → preview → generate/download.
 - `/create` — server page reads `searchParams`, renders `<Studio>` (client). `useQrPipeline()` derives
   payload → scene → preview data URI → heuristics, and runs a debounced, latest-wins ZXing decode.
 - Forms are generated from field definitions (`ContentForm`), so every type uses the same accessible

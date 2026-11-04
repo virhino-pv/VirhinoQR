@@ -60,6 +60,10 @@ for (const width of [360, 390, 768, 1024, 1280, 1440]) {
     await noHorizontalOverflow(page);
     await page.goto("/templates");
     await noHorizontalOverflow(page);
+    await page.goto("/bulk");
+    await page.getByTestId("bulk-input").setInputFiles({ name: "a.csv", mimeType: "text/csv", buffer: Buffer.from(["type,url,ssid,password", "url,example.com,,", "wifi,,Net,password1"].join("\n")) });
+    await expect(page.getByTestId("bulk-summary")).toContainText("2 valid");
+    await noHorizontalOverflow(page);
     await page.goto("/create?type=vcard");
     await noHorizontalOverflow(page);
     const bar = page.getByTestId("mobile-bar");
@@ -104,6 +108,13 @@ test("keyboard: skip link and type selection", async ({ page }) => {
 
 test("accessibility: homepage has no serious axe violations", async ({ page }) => {
   await page.goto("/");
+  await axe(page);
+});
+
+test("accessibility: bulk page with data has no serious axe violations", async ({ page }) => {
+  await page.goto("/bulk");
+  await page.getByTestId("bulk-input").setInputFiles({ name: "a.csv", mimeType: "text/csv", buffer: Buffer.from(["type,url,ssid,password", "url,example.com,,", "wifi,,Net,123"].join("\n")) });
+  await expect(page.getByTestId("bulk-summary")).toContainText("1 valid");
   await axe(page);
 });
 

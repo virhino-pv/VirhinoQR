@@ -1,4 +1,4 @@
-# 10 — Known limitations (M0–M7)
+# 10 — Known limitations (M0–M8)
 
 ## Verification gaps
 - **EPS is not render-verified.** Ghostscript is not installed here, so EPS files are checked structurally
@@ -39,5 +39,17 @@
 - Rendering runs on the main thread (memoised); version-40 codes with complex shapes may feel slower on low-end devices.
 - No dark mode, no localisation (English only).
 
+## Bulk (M8)
+- Browser limits: 1,000 rows, 5 MB and 100 columns per file. Larger jobs need server-side bulk (M12).
+- Generation runs on the main thread, yielding after each code. A 500-row run with scan checks takes about
+  a minute at 256 px, longer at large sizes. A Web Worker can't be used with the current SVG→canvas
+  path because workers cannot decode SVG images.
+- All files are held in memory until the ZIP is built (fine for 1,000 PNGs at typical sizes).
+- Bulk exports PNG and SVG only; per-code PDF/EPS remain available in the studio.
+- Excel cells formatted as numbers lose leading zeros and “+” (e.g. phone numbers) — format such columns as text.
+- The first non-empty sheet is chosen automatically; others via the sheet picker. Formulas are read as their cached values.
+- `.xls` (Excel 97–2003) and `.ods` are not supported.
+- One design applies to every row; per-row designs are not supported.
+
 ## Out of scope (not started, by instruction)
-M8 bulk QR · M9 authentication · M10 dynamic QR · M11 analytics · M12 API.
+M9 authentication · M10 dynamic QR · M11 analytics · M12 API.
