@@ -1,0 +1,39 @@
+# 10 — Known limitations (M0–M6)
+
+## Verification gaps
+- **EPS is not render-verified.** Ghostscript is not installed here, so EPS files are checked structurally
+  (DSC header, bounding box, balanced graphics state, embedded image data round-trip) and share their
+  geometry code with the PDF writer, which *is* render-verified. Before relying on EPS in production, run
+  `gs -dEPSCrop -sDEVICE=png16m -r300 -o out.png file.eps` and scan the result, or open it in Illustrator.
+  The masked-logo path (`ImageType 3`, used only when the logo is not on a cleared area) is the least exercised.
+- **Scan check ≠ every phone.** The ZXing check is a strong signal, not a guarantee for every camera,
+  print process or lighting. Real-device scanning (iOS Camera, Google Lens, an Android stock scanner) is a
+  manual step not yet performed.
+- E2E runs in Chrome only (desktop + emulated mobile widths); Firefox/Safari were not tested.
+
+## Format limitations
+- **EPS has no soft transparency**: logo alpha is flattened onto the background on a cleared area, or
+  reduced to a hard 1-bit mask otherwise. Logo opacity < 100 % is flattened likewise.
+- PDF/EPS colours are RGB (no CMYK/spot colours).
+- PNG maximum 4096 px; very large sizes take a moment to encode.
+- Logos are embedded as raster images in every format (≤ 1024 px; ≤ 768 px in PDF, ≤ 512 px in EPS),
+  including SVG uploads (sanitised and rasterised by design, for safety).
+
+## Content types
+- The 8 hosted-content types do **not** upload or host anything; they encode a link the user already
+  has. Uploading, landing pages, multi-link pages, device-aware app redirects, hosted rating/feedback
+  forms and scan statistics need the dynamic tier (M10–M11).
+- Location has no map picker or address search (coordinates or "Use my current location").
+- No ECI header is written; UTF-8 relies on scanners auto-detecting it (ZXing does; most phones do).
+- Events: no recurrence, alarms or attendees; times are converted to UTC.
+- Crypto: BTC, ETH, LTC, BCH, DASH only; BCH CashAddr and segwit checksums verified, Ethereum EIP-55.
+
+## Design / UX
+- Shape set is smaller than planned (10 body, 7 frame, 7 ball); only decode-verified shapes ship.
+- No frames/captions ("Scan me"), templates, saved designs, history (M7+).
+- Logo budgets are conservative estimates; the live scan check is the final word.
+- Rendering runs on the main thread (memoised); version-40 codes with complex shapes may feel slower on low-end devices.
+- No dark mode, no localisation (English only).
+
+## Out of scope (not started, by instruction)
+M7 templates · M8 bulk QR · M9 authentication · M10 dynamic QR · M11 analytics · M12 API.

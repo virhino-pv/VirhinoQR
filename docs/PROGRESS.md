@@ -1,52 +1,50 @@
 # Development progress — M0–M6
 
 Milestone numbering follows the approved execution brief (M0 foundation … M6 export), which differs
-from the order in doc 06. A box is ticked only after its check has actually run.
+from the order in doc 06. A box is ticked only after its check actually ran.
 
-Legend: `[x]` done and verified · `[~]` implemented, verification pending · `[ ]` not started
+**Final verification (2026-11-04):** typecheck ✔ · lint ✔ · `npm run build` ✔ · unit 198/198 ✔ · E2E 51/51 ✔ (Chrome 156)
 
-## Recovery audit (2026-11-04, after "API Error: The response stopped arriving")
-- [x] Git intact: only commit `cc66bcf` (docs); all new work untracked, nothing lost
-- [x] All 30 source/test files complete (end with newline, no truncation), `tsc --noEmit` clean
-- [x] Dependencies installed, `npm ls` reports no missing/invalid packages
-- [x] Registry test: 22 types, every sample encodes, defaults are "empty" — 46/46 after one fix
-      (Feedback's prefilled subject made an untouched form "invalid"; blank detection now ignores defaults)
-- [x] Decode smoke test passes (resvg rasterise → ZXing decode)
-- [x] Stray calibration outputs moved out of `C:\virhino-product` into the session scratchpad
+## Recovery audit (after "API Error: The response stopped arriving")
+- [x] Git intact (only `cc66bcf`); all new work untracked and complete — nothing lost or reset
+- [x] 30 source/test files complete, `tsc` clean, dependencies intact
+- [x] Defect found & fixed: an untouched Feedback form was "invalid" (prefilled default counted as input)
+- [x] Resumed at the exact stop point: golden-vector payload tests
 
 ## M0 — Foundation
-- [x] package.json scripts, Next 16 / React 19 / TS 5.9 strict / Tailwind 4 / ESLint 9 flat config
-- [x] Vitest config + decode harness (resvg + zxing-wasm, offline)
-- [x] `.env.example`, security headers, wasm self-hosting script
-- [ ] App shell (layout, globals.css tokens, error/not-found pages), UI components
-- [ ] `npm run build` + `npm run lint` pass
+- [x] Next 16 / React 19 / TS 5.9 strict / Tailwind 4 / ESLint 9; scripts; `.env.example`; security headers
+- [x] App shell, error / global-error / 404, reusable UI components
+- [x] Build + lint + typecheck pass — commit `20312b2`
 
 ## M1 — Homepage & navigation
-- [ ] Header (responsive, mobile menu), hero + quick generator, type cards, customisation showcase,
-      features, how it works, use cases, FAQ, footer
+- [x] Header + mobile menu, hero quick generator, type cards, live style showcase, features, how it works, use cases, FAQ, footer
+- [x] E2E: sections, links resolve, 6 viewports, mobile menu, axe
 
 ## M2 — Content types & forms
-- [x] 22 type definitions (14 static + 8 linked-to-hosted-content), validation, payload encoders
-- [x] Registry test
-- [ ] Golden-vector payload tests per type
-- [ ] Form renderer + studio integration, error states
+- [x] 22 types (14 static, 8 linked-to-hosted with honest notices), validation, encoders
+- [x] Golden-vector tests (30) + registry tests (46)
+- [x] Form renderer, error states, drafts, deep links; E2E for all 22 types in the UI
 
 ## M3 — QR engine
-- [x] Matrix (qrcode lib, UTF-8 byte mode), EC L/M/Q/H/auto, version, margin, scene graph
-- [x] Calibration: all 10 body × 7 frame shapes decode; eye balls "dots" fixed, "sparkle" removed
-- [ ] Engine tests (EC × versions, Unicode/Tamil decode, margins, errors)
-- [ ] Live preview + in-browser scan check
+- [x] Matrix, EC L/M/Q/H/auto, version, margin, scene graph, UTF-8/Tamil
+- [x] Decode matrix tests; live preview + in-browser ZXing scan badge
 
 ## M4 — Customisation
-- [x] Engine support: solid/linear/radial, eye colours (global + per eye), shapes, background/transparent
-- [ ] Controls UI + reset; scannability matrix tests; contrast heuristics tests
+- [x] Solid/linear/radial, eye colours (global + per eye), background/transparent, 10/7/7 shapes, EC, margin, reset
+- [x] Shape robustness: "dots" ball redesigned, diamond/leaf/circle tuned, "sparkle" removed (failed decode)
+- [x] Unit decode tests + E2E
 
 ## M5 — Logo
-- [x] Engine: size, offset (finder-safe), clear-behind shapes, padding, opacity, budget per EC
-- [ ] Browser processing: validation (type/magic bytes/size), SVG sanitising, background removal, gallery
-- [ ] Tests: bg removal, invalid uploads, logo decode across EC
+- [x] Upload PNG/JPG/WebP/SVG, magic-byte validation, 5 MB limit, SVG sanitising, background removal, gallery, size/position/opacity/cut-out, replace/remove, budget + auto EC
+- [x] Unit tests (16) + E2E (upload, gallery, invalid, malicious SVG)
 
 ## M6 — Export
-- [x] Writers: SVG, PDF (own, vector + shadings + SMask), EPS (own, PS L3), PNG pHYs/IHDR helpers
-- [ ] Browser PNG export, download flow + validation, filenames
-- [ ] Tests: SVG/PNG/PDF decode, EPS structure; E2E downloads
+- [x] PNG (DPI, transparent, exact size), SVG, PDF (own writer), EPS (own PS L3 writer), filenames, validation, risky-design confirmation
+- [x] PDF render-verified with pdf.js; PNG/SVG decoded in Node after download
+- [ ] EPS render verification — Ghostscript not installed (documented in doc 10)
+
+## Documentation
+- [x] README, doc 08 architecture as built, doc 09 completion report, doc 10 known limitations
+
+## Not started (by instruction)
+M7 templates · M8 bulk · M9 auth · M10 dynamic QR · M11 analytics · M12 API
